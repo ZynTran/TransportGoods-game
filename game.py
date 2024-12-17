@@ -11,10 +11,10 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("TRANSPORT GOODS")
 
 # Tải ảnh nền
-background = pygame.image.load('background.jpeg').convert()  # Đảm bảo rằng ảnh của bạn tồn tại trong thư mục của dự án
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))  # Thay đổi kích thước ảnh nền cho vừa màn hình
-wait_background = pygame.image.load('wait_background2.png').convert()  # Đảm bảo rằng ảnh của bạn tồn tại trong thư mục của dự án
-wait_background = pygame.transform.scale(wait_background, (WIDTH, HEIGHT))  # Thay đổi kích thước ảnh nền cho vừa màn hình
+background = pygame.image.load('background.jpeg').convert()  
+background = pygame.transform.scale(background, (WIDTH, HEIGHT)) 
+wait_background = pygame.image.load('wait_background2.png').convert()  
+wait_background = pygame.transform.scale(wait_background, (WIDTH, HEIGHT)) 
 
 #Âm thanh
 pygame.mixer.music.load("nhạc nền.mp3")
@@ -82,7 +82,6 @@ class Menu(pygame.sprite.Sprite):
         #self.rect.y -= 2  # Di chuyển chữ lên trên màn hình
         if(self.alpha<255):
             self.alpha += 35  # Giảm độ mờ dần dần
-            #self.rect.y -= 2
         self.image.set_alpha(self.alpha)  # Cập nhật độ mờ của chữ
 
 # Màn hình đợi
@@ -152,14 +151,13 @@ class Goal(pygame.sprite.Sprite):
 # Lớp nhân vật
 xe_image = pygame.image.load("truck.png")  # Thay "item.png" bằng đường dẫn tới file hình ảnh của bạn
 xe_image = pygame.transform.scale(xe_image, (50, 100))  # Thay đổi kích thước hình ảnh nếu cần
-xehang_image = pygame.image.load("truck_item.png")  # Thay "item.png" bằng đường dẫn tới file hình ảnh của bạn
-xehang_image = pygame.transform.scale(xehang_image, (50, 100))  # Thay đổi kích thước hình ảnh nếu cần
-xekhien_image = pygame.image.load("truck_khiên.png")  # Thay "item.png" bằng đường dẫn tới file hình ảnh của bạn
+xehang_image = pygame.image.load("truck_item.png")  
+xehang_image = pygame.transform.scale(xehang_image, (50, 100))  
+xekhien_image = pygame.image.load("truck_khiên.png")  
 xekhien_image = pygame.transform.scale(xekhien_image, (100, 100))  # Thay đổi kích thước hình ảnh nếu cần
 xehangkhien_image = pygame.image.load("truck_item_khiên.png")  # Thay "item.png" bằng đường dẫn tới file hình ảnh của bạn
 xehangkhien_image = pygame.transform.scale(xehangkhien_image, (100, 100))  # Thay đổi kích thước hình ảnh nếu cần
 class Character(pygame.sprite.Sprite):#cách khai báo một lớp (class) trong Python kế thừa từ lớp Sprite của thư viện Pygame.
-    #pygame.sprite.Sprite là một lớp có sẵn trong Pygame, dùng để quản lý và xử lý các đối tượng đồ họa (sprites) trong trò chơi
     def __init__(self):
         super().__init__()
         self.image = xe_image # Khởi tạo hình ảnh của nhân vật
@@ -181,23 +179,18 @@ class Character(pygame.sprite.Sprite):#cách khai báo một lớp (class) trong
             self.rect.x -= self.speed
             self.angle = 90  # Quay sang trái
             pressing = True
-            #channel_truck.stop()
-        #else: channel_truck.play(truck_sound)
         if keys[pygame.K_RIGHT] and self.rect.right < WIDTH:
             self.rect.x += self.speed
             self.angle = -90  # Quay sang phải
             pressing = True
-           # channel_truck.play(truck_sound)
         if keys[pygame.K_UP] and self.rect.top > 0:
             self.rect.y -= self.speed
             self.angle = 0  # Quay lên
             pressing = True
-           # channel_truck.play(truck_sound)
         if keys[pygame.K_DOWN] and self.rect.bottom < HEIGHT:
             self.rect.y += self.speed
             self.angle = 180  # Quay xuống
             pressing = True
-            #channel_truck.play(truck_sound)
 
         if(pressing and not self.is_moving):
             channel_truck.set_volume(0.4)
@@ -228,7 +221,6 @@ class Character(pygame.sprite.Sprite):#cách khai báo một lớp (class) trong
     def deliver_item(self, goal):
         if self.rect.colliderect(goal.rect) and self.has_item:
             self.has_item = False  # Đã giao hàng
-            #doubletime_sound.play()
             return True
         return False
     
@@ -625,10 +617,7 @@ def run_game():
     # Vòng lặp trò chơi
     while not game_over:
         # Kiểm tra thời gian còn lại
-        time_left = time_limit - (pygame.time.get_ticks() - start_time) // 1000 #pygame.time.get_ticks() - start_time: Tính toán thời gian đã trôi qua (tính từ khi start_time được ghi lại).
-        #pygame.time.get_ticks(): Trả về thời gian hiện tại (tính từ khi chương trình bắt đầu) tính bằng mili giây. Đây là giá trị mà Pygame sử dụng để theo dõi thời gian đã trôi qua từ khi chương trình bắt đầu chạy.
-        #start_time: Lưu trữ thời gian bắt đầu trò chơi (hoặc một mốc thời gian quan trọng nào đó) bằng cách sử dụng pygame.time.get_ticks()
-        #// 1000: Chia kết quả trên cho 1000 để chuyển đổi từ mili giây sang giây, vì pygame.time.get_ticks() trả về thời gian tính bằng mili giây (1 giây = 1000 mili giây)
+        time_left = time_limit - (pygame.time.get_ticks() - start_time) // 1000 
         if time_left == 0:
             game_over = True  # Kết thúc trò chơi khi hết thời gian
 
